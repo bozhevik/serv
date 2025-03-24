@@ -4,29 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\DTO\InfoDTO; 
 
 class InfoController extends Controller
 {
     public function server()
     {
-        return response()->json([
+        $dto = new InfoDTO([
             'php_version' => phpversion()
         ]);
+
+        return response()->json($dto->toArray());
     }
 
     public function client(Request $request)
     {
-        return response()->json([
+        $dto = new InfoDTO([
             'ip' => $request->ip(),
             'useragent' => $request->userAgent()
         ]);
+
+        return response()->json($dto->toArray());
     }
 
     public function database()
     {
-        return response()->json([
+        $dto = new InfoDTO([
             'db_connection' => DB::connection()->getDatabaseName(),
             'db_driver' => DB::connection()->getDriverName()
         ]);
+
+        return response()->json($dto->toArray());
     }
 }
